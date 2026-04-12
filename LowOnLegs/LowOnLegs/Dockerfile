@@ -1,5 +1,7 @@
 # Stage 1: Base runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+# Create data directory and set ownership before switching to non-root user
+RUN mkdir -p /app/data && chown $APP_UID /app/data
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
