@@ -1,16 +1,11 @@
-﻿using LowOnLegs.Core.DTOs;
-using LowOnLegs.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LowOnLegs.Core.DTOs;
 
 namespace LowOnLegs.Core.Interfaces
 {
     public interface IPlayerService
     {
-        public IEnumerable<PlayerDto> GetPlayers();
-        public PlayerDto GetPlayer(int playerId);
+        IEnumerable<PlayerDto> GetPlayers();
+        PlayerDto GetPlayer(int playerId);
+        Task<PlayerDto> AddPlayer(CreatePlayerDto dto);
     }
 }

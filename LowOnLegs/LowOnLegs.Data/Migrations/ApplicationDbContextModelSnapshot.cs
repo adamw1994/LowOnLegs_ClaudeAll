@@ -17,6 +17,61 @@ namespace LowOnLegs.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
 
+            modelBuilder.Entity("LowOnLegs.Core.Models.DoubleMatch", b =>
+                {
+                    b.Property<int>("DoubleMatchId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsFinished")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("LeftPlayer1Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("LeftPlayer2Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LeftTeamScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("LeftTeamWon")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("RightPlayer1Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("RightPlayer2Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RightTeamScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("DoubleMatchId");
+
+                    b.HasIndex("LeftPlayer1Id");
+
+                    b.HasIndex("LeftPlayer2Id");
+
+                    b.HasIndex("RightPlayer1Id");
+
+                    b.HasIndex("RightPlayer2Id");
+
+                    b.ToTable("DoubleMatches");
+                });
+
             modelBuilder.Entity("LowOnLegs.Core.Models.Match", b =>
                 {
                     b.Property<int>("MatchId")
@@ -76,6 +131,16 @@ namespace LowOnLegs.Data.Migrations
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("EloDoubles")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(1000);
+
+                    b.Property<int>("EloSingles")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(1000);
+
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
 
@@ -108,7 +173,9 @@ namespace LowOnLegs.Data.Migrations
                         new
                         {
                             PlayerId = 1,
-                            ImagePath = "assets/images/klimko.png",
+                            EloDoubles = 1000,
+                            EloSingles = 1000,
+                            ImagePath = "/images/klimko.png",
                             Name = "Piotr",
                             Nickname = "Klimko",
                             Surname = "Klimkowski"
@@ -116,7 +183,9 @@ namespace LowOnLegs.Data.Migrations
                         new
                         {
                             PlayerId = 2,
-                            ImagePath = "assets/images/igor.png",
+                            EloDoubles = 1000,
+                            EloSingles = 1000,
+                            ImagePath = "/images/igor.png",
                             Name = "Igor",
                             Nickname = "Igorakowiec",
                             Surname = "Gresista"
@@ -124,7 +193,9 @@ namespace LowOnLegs.Data.Migrations
                         new
                         {
                             PlayerId = 3,
-                            ImagePath = "assets/images/kuba.png",
+                            EloDoubles = 1000,
+                            EloSingles = 1000,
+                            ImagePath = "/images/kuba.png",
                             Name = "Jakub",
                             Nickname = "Kuba",
                             Surname = "Stadniczuk"
@@ -132,7 +203,9 @@ namespace LowOnLegs.Data.Migrations
                         new
                         {
                             PlayerId = 4,
-                            ImagePath = "assets/images/braciak.png",
+                            EloDoubles = 1000,
+                            EloSingles = 1000,
+                            ImagePath = "/images/braciak.png",
                             Name = "Dawid",
                             Nickname = "Braciak",
                             Surname = "Posała"
@@ -140,7 +213,9 @@ namespace LowOnLegs.Data.Migrations
                         new
                         {
                             PlayerId = 5,
-                            ImagePath = "assets/images/gliwa.png",
+                            EloDoubles = 1000,
+                            EloSingles = 1000,
+                            ImagePath = "/images/gliwa.png",
                             Name = "Michał",
                             Nickname = "Gliwa",
                             Surname = "Gliwa"
@@ -148,7 +223,9 @@ namespace LowOnLegs.Data.Migrations
                         new
                         {
                             PlayerId = 6,
-                            ImagePath = "assets/images/fred.png",
+                            EloDoubles = 1000,
+                            EloSingles = 1000,
+                            ImagePath = "/images/fred.png",
                             Name = "Adam",
                             Nickname = "Fred",
                             Surname = "Wybraniec"
@@ -156,7 +233,9 @@ namespace LowOnLegs.Data.Migrations
                         new
                         {
                             PlayerId = 7,
-                            ImagePath = "assets/images/karko.png",
+                            EloDoubles = 1000,
+                            EloSingles = 1000,
+                            ImagePath = "/images/karko.jpg",
                             Name = "Karolina",
                             Nickname = "Serwolina",
                             Surname = "Klimko"
@@ -164,11 +243,44 @@ namespace LowOnLegs.Data.Migrations
                         new
                         {
                             PlayerId = 8,
-                            ImagePath = "assets/images/hania.png",
+                            EloDoubles = 1000,
+                            EloSingles = 1000,
+                            ImagePath = "/images/hania.jpg",
                             Name = "Hania",
                             Nickname = "Hanula",
                             Surname = "Stencel"
                         });
+                });
+
+            modelBuilder.Entity("LowOnLegs.Core.Models.DoubleMatch", b =>
+                {
+                    b.HasOne("LowOnLegs.Core.Models.Player", "LeftPlayer1")
+                        .WithMany()
+                        .HasForeignKey("LeftPlayer1Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("LowOnLegs.Core.Models.Player", "LeftPlayer2")
+                        .WithMany()
+                        .HasForeignKey("LeftPlayer2Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("LowOnLegs.Core.Models.Player", "RightPlayer1")
+                        .WithMany()
+                        .HasForeignKey("RightPlayer1Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("LowOnLegs.Core.Models.Player", "RightPlayer2")
+                        .WithMany()
+                        .HasForeignKey("RightPlayer2Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("LeftPlayer1");
+
+                    b.Navigation("LeftPlayer2");
+
+                    b.Navigation("RightPlayer1");
+
+                    b.Navigation("RightPlayer2");
                 });
 
             modelBuilder.Entity("LowOnLegs.Core.Models.Match", b =>

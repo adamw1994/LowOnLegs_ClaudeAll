@@ -1,9 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace LowOnLegs.Core.Models
 {
     public class Player
@@ -18,8 +12,9 @@ namespace LowOnLegs.Core.Models
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string? ImagePath { get; set; }
+        public int EloSingles { get; set; } = 1000;
+        public int EloDoubles { get; set; } = 1000;
 
-        // Navigational properties
         public ICollection<Match>? Matches { get; set; }
         public ICollection<Match>? MatchesWon { get; set; }
     }

@@ -1,25 +1,19 @@
-﻿using LowOnLegs.Core.DTOs;
-using LowOnLegs.Core.Enums;
+using LowOnLegs.Core.DTOs;
 using LowOnLegs.Core.Interfaces;
 using LowOnLegs.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LowOnLegs.Services
 {
     public class MatchStateManager : IMatchStateManager
     {
         private MatchState? _currentMatch;
-        private readonly object _lockObject = new object();
+        private readonly object _lock = new();
 
-        public MatchStateDto GetMatchState() => new MatchStateDto(_currentMatch);
+        public MatchStateDto GetMatchState() => new MatchStateDto(_currentMatch!);
 
-        public MatchStateDto StartMatch(PlayerDto? leftPlayer, PlayerDto? rightPlayer)
+        public MatchStateDto StartMatch(PlayerDto? leftPlayer = null, PlayerDto? rightPlayer = null)
         {
-            lock (_lockObject)
+            lock (_lock)
             {
                 _currentMatch = new MatchState(leftPlayer, rightPlayer);
                 return new MatchStateDto(_currentMatch);
@@ -28,43 +22,29 @@ namespace LowOnLegs.Services
 
         public MatchStateDto SetMatchState(MatchStateDto dto)
         {
-            lock (_lockObject)
+            lock (_lock)
             {
-                if (_currentMatch == null)
-                {
-                    throw new Exception("No match is currently in progress");
-                }
-                SetMatchStateFromDto(dto);
-
+                if (_currentMatch is null) throw new InvalidOperationException("No match in progress");
+                _currentMatch.FirstServer = dto.FirstServer;
+                _currentMatch.CurrentServer = dto.CurrentServer;
+                _currentMatch.LeftPlayerScore = dto.LeftPlayerScore;
+                _currentMatch.RightPlayerScore = dto.RightPlayerScore;
+                _currentMatch.LeftPlayer = dto.LeftPlayer;
+                _currentMatch.RightPlayer = dto.RightPlayer;
+                _currentMatch.StartTime = dto.StartTime;
+                _currentMatch.CreatedAt = dto.CreatedAt;
+                _currentMatch.UpdatedAt = dto.UpdatedAt;
                 return new MatchStateDto(_currentMatch);
             }
         }
 
         public MatchStateDto GetCurrentMatch()
         {
-            lock (_lockObject)
+            lock (_lock)
             {
-                if (_currentMatch is null)
-                {
-                    throw new Exception("No match is currently in progress");
-                }
-
+                if (_currentMatch is null) throw new InvalidOperationException("No match in progress");
                 return new MatchStateDto(_currentMatch);
             }
         }
-
-        private void SetMatchStateFromDto(MatchStateDto dto)
-        {
-            _currentMatch.FirstServer = dto.FirstServer;
-            _currentMatch.CurrentServer = dto.CurrentServer;
-            _currentMatch.LeftPlayerScore = dto.LeftPlayerScore;
-            _currentMatch.RightPlayerScore = dto.RightPlayerScore;
-            _currentMatch.LeftPlayer = dto.LeftPlayer;
-            _currentMatch.RightPlayer = dto.RightPlayer;
-            _currentMatch.StartTime = dto.StartTime;
-            _currentMatch.CreatedAt = dto.CreatedAt;
-            _currentMatch.UpdatedAt = dto.UpdatedAt;
-        }
     }
-
 }

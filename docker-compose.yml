@@ -6,7 +6,6 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
-      # Override DB path to use the persistent volume
       - ConnectionStrings__DefaultConnection=Data Source=/app/data/LowOnLegsDb.db
     volumes:
       - db_data:/app/data
@@ -14,7 +13,7 @@ services:
 
   frontend:
     build:
-      context: ./LowOnLegs.FrontEnd/LowOnLegs
+      context: ./LowOnLegs.React
       dockerfile: Dockerfile
     ports:
       - "80:80"

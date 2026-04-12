@@ -1,4 +1,3 @@
-
 using LowOnLegs.API.Hubs;
 using LowOnLegs.Core.Interfaces;
 using LowOnLegs.Data;
@@ -43,15 +42,24 @@ namespace LowOnLegs
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Singletons (in-memory state)
             builder.Services.AddSingleton<IMatchStateManager, MatchStateManager>();
+            builder.Services.AddSingleton<IDoubleMatchStateManager, DoubleMatchStateManager>();
+
+            // Scoped services
             builder.Services.AddScoped<IMatchService, MatchService>();
+            builder.Services.AddScoped<IDoubleMatchService, DoubleMatchService>();
             builder.Services.AddScoped<IPlayerService, PlayerService>();
+            builder.Services.AddScoped<IStatsService, StatsService>();
+
+            // Repositories
             builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
             builder.Services.AddScoped<IMatchRepository, MatchRepository>();
+            builder.Services.AddScoped<IDoubleMatchRepository, DoubleMatchRepository>();
 
             var app = builder.Build();
 
-            // Apply pending EF Core migrations automatically on startup
+            // Apply pending EF Core migrations automatically
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -63,13 +71,18 @@ namespace LowOnLegs
                 app.MapOpenApi();
             }
 
-            // UseCors must come before MapControllers and MapHub
+            // Serve uploaded player photos from /app/data/uploads/
+            var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "uploads");
+            Directory.CreateDirectory(uploadsPath);
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(uploadsPath),
+                RequestPath = "/uploads"
+            });
+
             app.UseCors("CorsPolicy");
-
             app.UseAuthorization();
-
             app.MapControllers();
-
             app.MapHub<ScoreboardHub>("/scoreboardhub");
 
             app.Run();

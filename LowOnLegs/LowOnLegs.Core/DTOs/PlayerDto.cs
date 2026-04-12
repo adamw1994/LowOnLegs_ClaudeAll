@@ -1,9 +1,4 @@
-﻿using LowOnLegs.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LowOnLegs.Core.Models;
 
 namespace LowOnLegs.Core.DTOs
 {
@@ -19,6 +14,10 @@ namespace LowOnLegs.Core.DTOs
         public DateTime? DateOfBirth { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public int EloSingles { get; set; }
+        public int EloDoubles { get; set; }
+
+        public PlayerDto() { }
 
         public PlayerDto(Player player)
         {
@@ -32,6 +31,8 @@ namespace LowOnLegs.Core.DTOs
             CreatedAt = player.CreatedAt;
             UpdatedAt = player.UpdatedAt;
             ImagePath = player.ImagePath;
+            EloSingles = player.EloSingles;
+            EloDoubles = player.EloDoubles;
         }
     }
 }

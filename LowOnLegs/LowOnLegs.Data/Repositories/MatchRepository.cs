@@ -1,7 +1,6 @@
-﻿using LowOnLegs.Core.DTOs;
 using LowOnLegs.Core.Models;
 using LowOnLegs.Data.Repositories.Interfaces;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace LowOnLegs.Data.Repositories
 {
@@ -9,7 +8,7 @@ namespace LowOnLegs.Data.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public MatchRepository(ApplicationDbContext context) // 🔹 Wstrzykujemy kontekst przez konstruktor
+        public MatchRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -19,14 +18,24 @@ namespace LowOnLegs.Data.Repositories
             try
             {
                 await _context.Matches.AddAsync(match);
-                await _context.SaveChangesAsync(); // 🔹 Zapisujemy zmiany
+                await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
+        }
 
+        public IEnumerable<Match> GetAll()
+        {
+            return _context.Matches
+                .Include(m => m.LeftPlayer)
+                .Include(m => m.RightPlayer)
+                .Include(m => m.Winner)
+                .Where(m => m.IsFinished)
+                .OrderByDescending(m => m.EndTime)
+                .ToList();
         }
     }
 }
