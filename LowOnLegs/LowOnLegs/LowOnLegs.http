@@ -1,0 +1,6 @@
+@LowOnLegs_HostAddress = http://localhost:5012
+
+GET {{LowOnLegs_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

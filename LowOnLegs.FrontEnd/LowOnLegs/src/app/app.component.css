@@ -1,0 +1,45 @@
+/* Toolbar - stała szerokość 1024px */
+mat-toolbar {
+    width: 1024px;
+    height: 70px;
+    background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  /* Przyciski nawigacji */
+  mat-toolbar button {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid transparent;
+    flex: 1;
+    transition: all 0.2s ease;
+  }
+  
+  mat-toolbar button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+  
+  mat-toolbar button.active {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Content - dokładnie pod toolbarem */
+  .content {
+    width: 1024px;
+    height: 698px;
+    overflow: hidden;
+  }

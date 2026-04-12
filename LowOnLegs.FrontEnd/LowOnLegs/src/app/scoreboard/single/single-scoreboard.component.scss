@@ -1,0 +1,200 @@
+// Główny kontener - dokładnie 1024x768
+.scoreboard {
+  width: 1024px;
+  height: 768px;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// Wybór graczy
+.player-selection {
+  display: flex;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  justify-content: space-between;
+}
+
+// Menu dropdown
+::ng-deep .mat-mdc-menu-panel {
+  background: linear-gradient(135deg, #1c2858, #2a3f7a) !important;
+  border-radius: 12px !important;
+  max-height: 500px !important;
+  overflow-y: auto !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+::ng-deep .mat-mdc-menu-item {
+  color: white !important;
+  min-height: 70px !important;
+  padding: 10px 16px !important;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+.player-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.player-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.player-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.player-attribute {
+  font-size: 13px;
+  color: #ffd700;
+}
+
+// Wynik
+.score-display {
+  display: flex;
+  gap: 40px;
+ justify-content: space-around;
+}
+
+.player-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.player-badge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+  border: 25px solid transparent;
+}
+
+.profile-image.serving {
+  border: 25px solid #ffd9009d;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 
+              0 0 50px rgba(255, 215, 0, 0.5);
+  animation: pulse-border 1s infinite;
+}
+
+.player-label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.serve-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  animation: bounce 0.8s infinite;
+}
+
+.score-value {
+  font-size: 180px;
+  font-weight: bold;
+  padding: 20px 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  min-width: 250px;
+  text-align: center;
+}
+
+// Przyciski +/-
+.score-buttons {
+  display: flex;
+  gap: 40px;
+}
+
+.btn-score {
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  
+  &.plus { background: #4CAF50; color: white; }
+  &.minus { background: #FF5252; color: white; }
+  &:hover { transform: scale(1.1); }
+}
+
+// Kontrolki meczu
+.match-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: end;
+  align-items: center;
+}
+
+.reset, .finish-match-button {
+  font-size: 18px;
+  padding: 12px 30px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.reset {
+  background: white;
+  color: black;
+  &:hover { background: #FF5252; color: white; }
+}
+
+.finish-match-button {
+  background: #4CAF50;
+  color: white;
+  &:hover { background: #45a049; }
+}
+
+// Piłeczka serwująca
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.serve-ball-left, .serve-ball-right {
+  position: absolute;
+  top: 100px;
+  animation: bounce 0.8s infinite;
+}
+
+.serve-ball-left { left: 280px; }
+.serve-ball-right { right: 280px; }
+
+.ping-pong-icon {
+  width: 280px;
+}
